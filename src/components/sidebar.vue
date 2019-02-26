@@ -73,6 +73,22 @@ export default {
       
     }
   },
+  sockets: {
+    authoring: function(data) {
+      let behaviors = data[1];
+      console.log(behaviors);
+      for(let i = 0; i < behaviors.length; i++){
+        let newItem = {
+          action:"",
+          title:behaviors[i].name,
+          subtitle:behaviors[i].tutorial,
+          headline:behaviors[i].severity
+        };
+        console.log(newItem);
+        this.errorItems.push(newItem);
+      }
+    }
+  },
   methods: {
     jump2Student: function() {
     },

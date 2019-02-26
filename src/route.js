@@ -3,7 +3,7 @@ import Router from "vue-router";
 import HelloWorld from "@/components/HelloWorld";
 import teacher from "@/components/teacher";
 import student from "@/components/student";
-
+import authoringTool from "@/components/authoringTool"
 Vue.use(Router);
 
 const routes = [
@@ -18,6 +18,10 @@ const routes = [
   {
     path: "/teacher",
     component: teacher
+  },
+  {
+    path:"/authoringTool",
+    component:authoringTool
   }
 ];
 

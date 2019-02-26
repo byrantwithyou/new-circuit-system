@@ -41,8 +41,17 @@
     sockets: {
       photoToJudge: function(data) {
         console.log(data);
+      },
+      authoring: function(data) {
+        let subsections = data[0];
+        let behaviors = data[1];
+        console.log("subsections");
+        console.log(subsections);
+        console.log("behaviors");
+        console.log(behaviors);
+        }
       }
-    },
+    ,
     created: function() {
       console.log(this.$socket.id);
     }

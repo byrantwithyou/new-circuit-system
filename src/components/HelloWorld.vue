@@ -2,6 +2,7 @@
   <div>
     <v-btn @click="loginAsStudent">Log in as Student</v-btn>
     <v-btn @click="loginAsTeacher">Log in as Teacher</v-btn>
+    <v-btn @click="authoringTool">Authoring Tool</v-btn>
   </div>
 </template>
 
@@ -24,6 +25,9 @@
         this.$store.commit("step/alteroute", {
           route: "/teacher"
         })
+      },
+      authoringTool:function () {
+        this.$router.push("/authoringTool");
       }
     },
   }
