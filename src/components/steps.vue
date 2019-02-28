@@ -18,9 +18,10 @@
                 <div>
                     {{behavior.tutorial}}
                 </div>
-                <el-button @click="submitPicture(index)">submit</el-button>
+                <el-button @click="submitPicture(index, behavior)">submit</el-button>
             </div>
         </el-card>
+
 
         <v-dialog  v-model="reviewDialog" width="500">
             <v-card>
@@ -80,7 +81,8 @@
             return{
                 subsections:[],
                 steps:[],
-                activeValue:0
+                activeValue:0,
+                behaviorImg: ""
             }
         },
         computed:{
@@ -108,15 +110,15 @@
             }
         },
         methods:{
-            submitPicture(index){
+            submitPicture(index, behavior){
                 if(this.steps[this.activeValue].behaviors[index].severity === "high"){
-
+                    this.$socket.emit("photo", this.behaviorImg, behavior);
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "middle"){
-
+                    this.$socket.emit("photo", this.behaviorImg, behavior);
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "low"){
-
+                    this.$socket.emit("photo", this.behaviorImg, behavior);
                 }
             },
             next(){
@@ -157,6 +159,11 @@
             },
 
 
+        },
+        sockets: {
+            getMobilePhoto: function(data) {
+                this.behaviorImg = data;
+            }
         }
     }
 </script>
