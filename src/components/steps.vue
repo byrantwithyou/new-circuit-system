@@ -26,11 +26,11 @@
         <v-dialog  v-model="reviewDialog" width="500">
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>
-                    Gauge the Resister
+                    {{behaviorTitle}}
                 </v-card-title>
-                <!--<v-card-media contain>-->
-                    <!--<v-img :src="reviewImgURL"></v-img>-->
-                <!--</v-card-media>-->
+                <v-card-media contain>
+                    <v-img :src="reviewImgURL"></v-img>
+                </v-card-media>
                 <v-card-text>
                     <v-text-field v-model="comment" label="Comment" required></v-text-field>
                 </v-card-text>
@@ -54,7 +54,7 @@
         <v-dialog  v-model="reviewResultDialog" width="500">
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>
-                    Gauge the Resister
+                    {{reviewResultBehavior}}
                 </v-card-title>
                 <v-card-media contain>
                     <v-img :src="reviewResultImgURL"></v-img>
@@ -82,7 +82,19 @@
                 subsections:[],
                 steps:[],
                 activeValue:0,
-                behaviorImg: ""
+                behaviorImg: "",
+                reviewDialog: false,
+                behaviorTitle:"",
+                reviewImgURL: "",
+                comment: "",
+                userLoopBack: "",
+                severity:"",
+                reviewResultDialog: false,
+                reviewResultImgURL: "",
+                reviewComment: "",
+                reviewIcon: "",
+                reviewResultBehavior:"",
+                reviewResultSeverity:""
             }
         },
         computed:{
@@ -110,15 +122,29 @@
             }
         },
         methods:{
+            right: function() {
+                this.reviewDialog = false;
+                this.$socket.emit("review", 1, this.reviewImgURL, this.behaviorTitle, this.userLoopBack, this.comment, this.severity);
+            },
+            wrong: function() {
+                this.reviewDialog = false;
+                this.$socket.emit("review", 0, this.reviewImgURL, this.behaviorTitle, this.userLoopBack, this.comment, this.severity);
+            },
+            sendToTeacher: function() {
+                this.reviewResultDialog = false;
+                this.$socket.emit("photoToTeacher", this.reviewResultImgURL, "dsf", 1);
+            },
             submitPicture(index, behavior){
                 if(this.steps[this.activeValue].behaviors[index].severity === "high"){
                     this.$socket.emit("photo", this.behaviorImg, behavior);
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "middle"){
+                    this.steps[this.activeValue].finishedBehavior ++;
                     this.$socket.emit("photo", this.behaviorImg, behavior);
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "low"){
                     this.$socket.emit("photo", this.behaviorImg, behavior);
+                    this.steps[this.activeValue].finishedBehavior ++;
                 }
             },
             next(){
@@ -163,6 +189,29 @@
         sockets: {
             getMobilePhoto: function(data) {
                 this.behaviorImg = data;
+            },
+            photoToJudge: function(data) {
+                this.reviewDialog = true;
+                this.behaviorTitle = data[1];
+                this.reviewImgURL = data[0];
+                this.userLoopBack = data[2];
+                this.severity = data[3];
+            },
+            reviewResult: function(data) {
+                this.reviewResultDialog = true;
+                this.reviewComment = data[3];
+                this.reviewResultBehavior = data[2];
+                this.reviewResultSeverity = data[4];
+                this.reviewResultImgURL = data[0];
+                if (data[1] === 1) {
+                    this.reviewIcon = "Right";
+                    if(data[4] === "high"){
+                        this.steps[this.activeValue].finishedBehavior ++;
+                    }
+                }
+                else {
+                    this.reviewIcon = "Wrong";
+                }
             }
         }
     }
