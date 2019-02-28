@@ -10,14 +10,14 @@ import VueSocketIO from "vue-socket.io";
 import 'element-ui/lib/theme-chalk/index.css';
 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(VueGoogleCharts);
 Vue.use(Notifications);
 Vue.use(ElementUI);
 Vue.use(new VueSocketIO({
   debug: true,
   connection: "http://localhost:8089"
-}))
+}));
 
 new Vue({
   router,

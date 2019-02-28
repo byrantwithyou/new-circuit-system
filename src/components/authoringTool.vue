@@ -9,27 +9,29 @@
     <el-tab-pane label="subsection" name="second">
       <el-container>
         <el-main>
-          <h2>STEPS</h2>
+          <h2>SUBSECTIONS</h2>
           <div class="row">
             <el-button @click="addSubsection" style="height: 50px;margin-left: 300px">add subsection</el-button>
           </div>
           <el-row>
             <el-col :span="4" v-for="subsection in subsections" :key="subsection.id" :offset="2" style="margin-bottom:40px;margin-right:40px;margin-left: 60px">
 
-              <el-card :body-style="{ padding: '0px', height:'360px'}" shadow="hover" style="width: 240px;min-height:500px;background: seashell;border-radius: 20px">
-                <div style="padding: 6px;height: 310px;">
+              <el-card shadow="hover" style="width: 280px;min-height:500px;background: seashell;border-radius: 3px">
+                <div style="padding: 6px;min-height: 310px;">
                   <div slot="header">
                     <span style="margin-left: 40px">{{subsection.name}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text" @click="closeCard($index)">close</el-button>
                   </div>
 
-                  <div style="margin-left: 30px">steps</div>
-                  <div style="position: relative;top: 10px;min-height:200px">
+                  <div>steps</div>
+                  <div style="min-height:200px">
                     <draggable class="list-group" v-model="subsection.steps" :options="{group:'step'}" @change="sendUpdateAuthoring">
-                      <transition-group>
+                      <transition-group style="display: block">
                         <li class="list-group-item" v-for="element in subsection.steps" :key="element.id">
                           {{element.content}}
                         </li>
+                        <!--<div class="div" v-for="element in subsections.steps" key = "element.id">{{element.content}}</div>-->
+
                       </transition-group>
                     </draggable>
                   </div>
@@ -41,7 +43,7 @@
         </el-main>
 
 
-        <el-aside width="280px" style="background: seashell;min-height: 600px;border-radius: 20px">
+        <el-aside width="280px" style="background: seashell;min-height: 600px;border-radius: 3px">
           <h4>steps</h4>
           <div class="col-md-12">
             <draggable class="list-group" v-model="components" :options="{group:'step'}">
@@ -87,7 +89,7 @@
           <el-row>
             <el-col :span="4" v-for="(element1,index) in steps" :key="element1.id" :offset="2" style="margin-bottom:40px;margin-right:40px;margin-left: 60px">
 
-              <el-card :body-style="{ padding: '0px', height:'360px'}" shadow="hover" style="width: 240px;min-height:500px;background: seashell;border-radius: 20px">
+              <el-card :body-style="{ padding: '0px', height:'360px'}" shadow="hover" style="width: 240px;min-height:500px;background: seashell;border-radius: 3px">
                 <div style="padding: 6px;height: 310px;">
                   <div slot="header">
                     <h3 style="margin-left: 40px">STEP</h3>
@@ -127,16 +129,16 @@
         </el-main>
 
 
-        <el-aside width="280px" style="background: seashell;min-height: 600px;border-radius: 20px">
-          <h4>behaviors</h4>
-          <draggable class="list-group" v-model="behaviors" :options="{group:{name:'behavior',pull:'clone',put:false}}">
-            <transition-group>
-              <li class="list-group-item" v-for="element in behaviors" :key="element.name">
-                {{element.name}}
-              </li>
-            </transition-group>
-          </draggable>
-        </el-aside>
+        <!--<el-aside width="280px" style="background: seashell;min-height: 600px;border-radius: 3px">-->
+          <!--<h4>behaviors</h4>-->
+          <!--<draggable class="list-group" v-model="behaviors" :options="{group:{name:'behavior',pull:'clone',put:false}}">-->
+            <!--<transition-group>-->
+              <!--<li class="list-group-item" v-for="element in behaviors" :key="element.name">-->
+                <!--{{element.name}}-->
+              <!--</li>-->
+            <!--</transition-group>-->
+          <!--</draggable>-->
+        <!--</el-aside>-->
 
       </el-container>
     </el-tab-pane>
@@ -233,38 +235,56 @@
 
 
     <el-tab-pane label="other settings" name="forth">
-    <el-container style="position: relative;margin:auto">
-      <el-form :model="settings" style="position: relative;margin:auto">
-        <el-form-item label="How many times can a student be deemed to have been familiar with a behavior?">
-         <br>
-        <el-select v-model="settings.trueTimes" placeholder="Please choose" style="position: absolute;right: 0px" @change="sendUpdateAuthoring">
-          <el-option label="1" value="1"></el-option>
-          <el-option label="2" value="2"></el-option>
-          <el-option label="3" value="3"></el-option>
-          <el-option label="4" value="4"></el-option>
-          <el-option label="5" value="5"></el-option>
-          <el-option label="6" value="6"></el-option>
-          <el-option label="never" value="never"></el-option>
-        </el-select>
-        </el-form-item>
-        <br>
-
-
-        <el-form-item label="What is the probability to check the behavior again if a student has been familiar with a behavior?">
+      <el-container style="position: relative;margin:auto">
+        <el-form :model="settings" style="position: relative;margin:auto">
+          <el-form-item label="How many times can a student be deemed to have been familiar with a behavior?">
+            <br>
+            <el-select v-model="settings.trueTimes" placeholder="Please choose" style="position: absolute;right: 0px" @change="sendUpdateAuthoring">
+              <el-option label="1" value="1"></el-option>
+              <el-option label="2" value="2"></el-option>
+              <el-option label="3" value="3"></el-option>
+              <el-option label="4" value="4"></el-option>
+              <el-option label="5" value="5"></el-option>
+              <el-option label="6" value="6"></el-option>
+              <el-option label="never" value="never"></el-option>
+            </el-select>
+          </el-form-item>
           <br>
-          <el-select v-model="settings.probability" placeholder="Please choose" style="position: absolute;right: 0px" @change="sendUpdateAuthoring">
-            <el-option label="0.0" value="0.0"></el-option>
-            <el-option label="0.2" value="0.2"></el-option>
-            <el-option label="0.4" value="0.4"></el-option>
-            <el-option label="0.6" value="0.6"></el-option>
-            <el-option label="0.8" value="0.8"></el-option>
-            <el-option label="1.0" value="1.0"></el-option>
-          </el-select>
-        </el-form-item>
-        <br>
-        <el-button type="primary" @click="confirmSettings">OK</el-button>
-      </el-form>
-    </el-container>
+
+
+          <el-form-item label="What is the probability to check the behavior again if a student has been familiar with a behavior?">
+            <br>
+            <el-select v-model="settings.probability" placeholder="Please choose" style="position: absolute;right: 0px" @change="sendUpdateAuthoring">
+              <el-option label="0.0" value="0.0"></el-option>
+              <el-option label="0.2" value="0.2"></el-option>
+              <el-option label="0.4" value="0.4"></el-option>
+              <el-option label="0.6" value="0.6"></el-option>
+              <el-option label="0.8" value="0.8"></el-option>
+              <el-option label="1.0" value="1.0"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+
+          <el-form-item label="Please upload the demo picture of the circuit">
+            <br>
+            <el-upload
+                    class="upload-demo-picture"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :before-upload="beforeUploadPicture"
+                    >
+              <el-button slot="trigger" style="height: 50px;margin-right: 400px">choose picture</el-button>
+              <div slot="tip" class="el-upload__tip"></div>
+            </el-upload>
+          </el-form-item>
+
+          <el-form-item label="Please make a brief introduction to the project.">
+            <br>
+            <el-input v-model="settings.introduction" @change="sendUpdateAuthoring">
+            </el-input>
+          </el-form-item>
+          <!--<el-button type="primary" @click="confirmSettings">OK</el-button>-->
+        </el-form>
+      </el-container>
     </el-tab-pane>
   </el-tabs>
   </el-main>
@@ -297,7 +317,9 @@
           tmpBehaviorForStep:null,
           settings:{
             trueTimes:null,
-            probability:null
+            probability:null,
+            introduction:null,
+            picture:null
           },
           tmpBehavior:{
             name:null,
@@ -419,6 +441,17 @@
             this.tmpBehavior.severity = null;
             this.changeDialogVisible = false;
             this.socket.emit('authoring',this.subsections,this.behaviors,this.settings);
+          }
+        },
+
+        beforeUploadPicture(file){
+          var fr = new FileReader();
+          fr.readAsDataURL(file);
+          var that = this;
+          fr.onload = function () {
+            console.log(this.result);
+            that.settings.picture = this.result;
+            that.socket.emit('authoring',that.subsections,that.behaviors,that.settings);
           }
         },
 

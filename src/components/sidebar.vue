@@ -66,9 +66,9 @@ export default {
         { action: '30 min', title: 'Sam', subtitle: 'What is the negative side of a LED?' },
       ],
       errorItems: [
-        { action: '2 min', title: 'Gauge The Resister', subtitle: "Drag A Wrong Component!", headline:"Level 3" },
-        { action: '15 min', title: 'Avoid Crossing Wires', subtitle: "Avoid Crossing Wires!", headline: "Level 2"},
-        { action: '30 min', title: 'Color Your Circuit', subtitle: 'Wrong Compon', headline: "Level 1" },
+        // { action: '2 min', title: 'Gauge The Resister', subtitle: "Drag A Wrong Component!", headline:"Level 3" },
+        // { action: '15 min', title: 'Avoid Crossing Wires', subtitle: "Avoid Crossing Wires!", headline: "Level 2"},
+        // { action: '30 min', title: 'Color Your Circuit', subtitle: 'Wrong Compon', headline: "Level 1" },
       ],
       
     }
