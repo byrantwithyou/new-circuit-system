@@ -89,8 +89,8 @@
           <el-row>
             <el-col :span="4" v-for="(element1,index) in steps" :key="element1.id" :offset="2" style="margin-bottom:40px;margin-right:40px;margin-left: 60px">
 
-              <el-card :body-style="{ padding: '0px', height:'360px'}" shadow="hover" style="width: 240px;min-height:500px;background: seashell;border-radius: 3px">
-                <div style="padding: 6px;height: 310px;">
+              <el-card :body-style="{ padding: '0px', height:'360px'}" shadow="hover" style="width: 240px;min-height:200px;background: seashell;border-radius: 3px">
+                <div style="padding: 6px;height: 160px;">
                   <div slot="header">
                     <h3 style="margin-left: 40px">STEP</h3>
                     </div>
@@ -108,7 +108,7 @@
                     <!--</draggable>-->
                     <div class="list-group" v-model="element1.behaviors">
                       <li class="list-group-item" v-for="element in element1.behaviors">
-                        {{element}}
+                        {{element.name}}
                       </li>
                     </div>
                     <el-select v-model="tmpBehaviorForStep" placeholder="please choose" @change="addBehaviorForStep(index)">
@@ -116,7 +116,7 @@
                         v-for="item in behaviors"
                         :key="item.name"
                         :label="item.name"
-                        :value="item.name">
+                        :value="item">
                       </el-option>
                     </el-select>
                   </div>

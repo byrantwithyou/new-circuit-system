@@ -7,7 +7,7 @@
     <v-content>
       <router-view></router-view>
       
-        <v-dialog  v-model="reviewDialog" width="500">
+        <!--v-dialog  v-model="reviewDialog" width="500">
           <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>
               Gauge the Resister
@@ -54,7 +54,7 @@
               <v-btn @click="sendToTeacher">Send Again to teacher</v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog-->
     </v-content>
   </v-app>
 </template>

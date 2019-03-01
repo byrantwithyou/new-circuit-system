@@ -26,7 +26,7 @@
         <v-dialog  v-model="reviewDialog" width="500">
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>
-                    {{behaviorTitle}}
+                    {{behaviorTitle.name}}
                 </v-card-title>
                 <v-card-media contain>
                     <v-img :src="reviewImgURL"></v-img>
@@ -54,7 +54,7 @@
         <v-dialog  v-model="reviewResultDialog" width="500">
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>
-                    {{reviewResultBehavior}}
+                    {{reviewResultBehavior.name}}
                 </v-card-title>
                 <v-card-media contain>
                     <v-img :src="reviewResultImgURL"></v-img>
@@ -94,7 +94,11 @@
                 reviewComment: "",
                 reviewIcon: "",
                 reviewResultBehavior:"",
-                reviewResultSeverity:""
+                reviewResultSeverity:"",
+                nextDisableFlag:true,
+                toBeFinishedBehavior:0,
+                finishedBehavior:0
+
             }
         },
         computed:{
@@ -103,23 +107,24 @@
             },
             //when all behaviors are finished, next button can be clicked
             //finishedBehavior is
-            nextDisable:function () {
-                if(this.steps[this.activeValue].finishedBehavior === this.steps[this.activeValue].behaviors.length){
-                    return false;
-                }
-                else return true;
-            }
+            nextDisable: function() {
+                console.log("NEXTDISABLE");
+            
+                return !(this.finishedBehavior === this.toBeFinishedBehavior);
+                            }
         },
         created() {
             this.subsections = this.$route.query.subsection;
             console.log("aaa");
             console.log(this.subsections);
             for(let i = 0; i < this.subsections.length;i++){
-                for(let j = 0; j < this.subsections[i].steps.length;j++){
+                for(let j = 0; j < this.subsections[i].steps.length; j++){
                     this.subsections[i].steps[j].finishedBehavior = 0;
                     this.steps.push(this.subsections[i].steps[j]);
                 }
             }
+            this.toBeFinishedBehavior = this.steps[0].behaviors.length;
+            
         },
         methods:{
             right: function() {
@@ -136,19 +141,23 @@
             },
             submitPicture(index, behavior){
                 if(this.steps[this.activeValue].behaviors[index].severity === "high"){
-                    this.$socket.emit("photo", this.behaviorImg, behavior);
+                    this.$socket.emit("photo", this.behaviorImg, behavior,"high");
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "middle"){
-                    this.steps[this.activeValue].finishedBehavior ++;
-                    this.$socket.emit("photo", this.behaviorImg, behavior);
+                    this.finishedBehavior++;
+                    console.log("middle");
+                    this.$socket.emit("photo", this.behaviorImg, behavior,"middle");
                 }
                 if(this.steps[this.activeValue].behaviors[index].severity === "low"){
-                    this.$socket.emit("photo", this.behaviorImg, behavior);
-                    this.steps[this.activeValue].finishedBehavior ++;
+                    this.$socket.emit("photo", this.behaviorImg, behavior,"low");
+                    this.finishedBehavior++;
+                    console.log("low");
                 }
             },
             next(){
                 this.activeValue++;
+                this.toBeFinishedBehavior = this.steps[this.activeValue].behaviors.length;
+                this.finishedBehavior = 0;
                 // if(!steps[i].behaviors){
                 //     this.activeValue ++;
                 // }
@@ -206,7 +215,8 @@
                 if (data[1] === 1) {
                     this.reviewIcon = "Right";
                     if(data[4] === "high"){
-                        this.steps[this.activeValue].finishedBehavior ++;
+                        console.log("high");
+                        this.finishedBehavior ++;
                     }
                 }
                 else {
