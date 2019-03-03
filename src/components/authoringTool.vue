@@ -4,8 +4,7 @@
     <h1>authoring tool</h1>
   </el-header>
   <el-main>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="" name="zero"></el-tab-pane>
+  <el-tabs v-model="activeName">
     <el-tab-pane label="subsection" name="second">
       <el-container>
         <el-main>
@@ -387,12 +386,6 @@
         deleteBehavior(index){
           this.behaviors.splice(index,1);
           this.socket.emit('authoring',this.subsections,this.behaviors,this.settings);
-        },
-        confirmSettings(){
-
-        },
-        handleClick(tab, event) {
-          console.log(tab, event);
         },
         changeBehavior(row,index){
           this.listIndex = index;

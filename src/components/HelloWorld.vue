@@ -42,11 +42,6 @@
         this.test += 1;
       }
     },
-    sockets: {
-      getMobilePhoto: function(data) {
-        console.log(data);
-      }
-    }
   }
 </script>
 
